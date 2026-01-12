@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#0066CC"/>
+  <circle cx="600" cy="350" r="200" fill="#004A99"/>
+  <text x="600" y="600" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff" text-anchor="middle">COACHING</text>
+</svg>

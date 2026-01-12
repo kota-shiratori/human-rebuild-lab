@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#1a3a5c"/>
+  <circle cx="400" cy="350" r="120" fill="#2d5a87"/>
+  <rect x="320" y="450" width="160" height="220" rx="10" fill="#c94f4f"/>
+  <text x="400" y="750" font-family="system-ui, sans-serif" font-size="28" fill="#ffffff" text-anchor="middle" font-weight="600">Reading</text>
+</svg>

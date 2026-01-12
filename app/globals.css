@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --brand-blue: #0066CC;
+  --brand-blue-dark: #004A99;
+  --brand-blue-light: #E6F0FA;
+  --brand-white: #FFFFFF;
+  --brand-black: #1A1A1A;
+  --brand-gray: #F7F8FA;
+  --brand-gray-dark: #666666;
+}
+
+@theme inline {
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-dark: var(--brand-blue-dark);
+  --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-white: var(--brand-white);
+  --color-brand-black: var(--brand-black);
+  --color-brand-gray: var(--brand-gray);
+  --color-brand-gray-dark: var(--brand-gray-dark);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+/* Reset dark mode - this site is light mode only */
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--brand-white);
+  color: var(--brand-black);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Typography Scale ===== */
+.text-display {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.text-giant {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.text-hero {
+  font-size: clamp(1.75rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+.text-headline {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* ===== Section Wrapper ===== */
+.section-wrapper {
+  @apply mx-auto max-w-7xl px-5 sm:px-8 lg:px-12;
+}
+
+.section-wrapper-narrow {
+  @apply mx-auto max-w-5xl px-5 sm:px-8 lg:px-12;
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-full bg-brand-blue px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-brand-blue-dark hover:scale-[1.02] hover:shadow-lg active:scale-[0.98];
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-full border-2 border-brand-blue bg-transparent px-8 py-4 font-semibold text-brand-blue transition-all duration-300 hover:bg-brand-blue hover:text-white;
+}
+
+.btn-white {
+  @apply inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-semibold text-brand-blue transition-all duration-300 hover:bg-brand-blue-light hover:scale-[1.02] hover:shadow-lg active:scale-[0.98];
+}
+
+/* ===== Card Effects ===== */
+.card-hover {
+  @apply transition-all duration-400 hover:shadow-xl hover:-translate-y-2;
+}
+
+/* ===== Image Wrapper ===== */
+.image-wrapper {
+  @apply relative overflow-hidden rounded-3xl;
+}
+
+.image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.1) 100%);
+  pointer-events: none;
+}
+
+/* ===== Prose customization ===== */
+.prose-brand {
+  --tw-prose-body: var(--brand-black);
+  --tw-prose-headings: var(--brand-black);
+  --tw-prose-links: var(--brand-blue);
+  --tw-prose-bold: var(--brand-black);
+  --tw-prose-quotes: var(--brand-gray-dark);
+  --tw-prose-code: var(--brand-blue);
+}
+
+/* ===== Form Styles ===== */
+input[type="text"],
+input[type="email"],
+textarea {
+  @apply w-full border border-gray-200 rounded-xl px-5 py-4 text-base focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent transition-all bg-white;
+}
+
+input[type="checkbox"] {
+  @apply w-5 h-5 rounded border-gray-300 text-brand-blue focus:ring-brand-blue cursor-pointer;
+}
+
+/* ===== Decorative Elements ===== */
+.gradient-blur {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ===== Animation ===== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: var(--brand-blue);
+  color: white;
+}
