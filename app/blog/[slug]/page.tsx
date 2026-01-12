@@ -41,45 +41,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// 目次を生成する関数
+// 目次を生成する関数（HTML形式に対応）
 function generateTableOfContents(content: string) {
-  const headingRegex = /^##\s+(.+)$/gm;
+  // MicroCMSのリッチエディタから出力されるHTML形式の<h2>を解析
+  const headingRegex = /<h2[^>]*id="([^"]*)"[^>]*>([^<]*)<\/h2>/gi;
   const headings: { id: string; text: string }[] = [];
   let match;
 
   while ((match = headingRegex.exec(content)) !== null) {
-    const text = match[1];
-    const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
+    const id = match[1];
+    const text = match[2];
     headings.push({ id, text });
   }
 
   return headings;
-}
-
-// Markdownを簡易的にHTMLに変換
-function markdownToHtml(content: string): string {
-  return content
-    // 見出し（idを追加）
-    .replace(/^## (.+)$/gm, (_, text) => {
-      const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-      return `<h2 id="${id}">${text}</h2>`;
-    })
-    .replace(/^### (.+)$/gm, "<h3>$1</h3>")
-    // リスト
-    .replace(/^- (.+)$/gm, "<li>$1</li>")
-    .replace(/(<li>.*<\/li>\n?)+/g, "<ul>$&</ul>")
-    .replace(/^\d+\. (.+)$/gm, "<li>$1</li>")
-    // 太字
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    // 段落
-    .replace(/\n\n/g, "</p><p>")
-    .replace(/^(?!<)(.+)$/gm, "<p>$1</p>")
-    // クリーンアップ
-    .replace(/<p><\/p>/g, "")
-    .replace(/<p>(<h[23]>)/g, "$1")
-    .replace(/(<\/h[23]>)<\/p>/g, "$1")
-    .replace(/<p>(<ul>)/g, "$1")
-    .replace(/(<\/ul>)<\/p>/g, "$1");
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -92,7 +67,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   const relatedPosts = await getRelatedPosts(post, 3);
   const toc = generateTableOfContents(post.content);
-  const htmlContent = markdownToHtml(post.content);
+  // MicroCMSのリッチエディタはHTMLを返すのでそのまま使用
+  const htmlContent = post.content;
 
   const formattedDate = new Date(post.publishedAt).toLocaleDateString("ja-JP", {
     year: "numeric",
