@@ -25,8 +25,8 @@ export async function getBlogPosts(
   options: {
     limit?: number;
     offset?: number;
-    category?: string;
-    tag?: string;
+    category?: string; // カテゴリのslug
+    tag?: string; // タグのslug
   } = {}
 ): Promise<BlogListResponse> {
   const { limit = 10, offset = 0, category, tag } = options;
@@ -37,11 +37,23 @@ export async function getBlogPosts(
   }
 
   const filters: string[] = [];
+  
+  // カテゴリslugからIDを取得してフィルタリング
   if (category) {
-    filters.push(`category[equals]${category}`);
+    const categories = await getCategories();
+    const categoryData = categories.find((c) => c.slug === category);
+    if (categoryData) {
+      filters.push(`category[equals]${categoryData.id}`);
+    }
   }
+  
+  // タグslugからIDを取得してフィルタリング
   if (tag) {
-    filters.push(`tags[contains]${tag}`);
+    const tags = await getTags();
+    const tagData = tags.find((t) => t.slug === tag);
+    if (tagData) {
+      filters.push(`tags[contains]${tagData.id}`);
+    }
   }
 
   const response = await client.get<BlogListResponse>({
