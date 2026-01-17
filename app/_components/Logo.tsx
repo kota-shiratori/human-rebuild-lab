@@ -3,6 +3,7 @@ import Image from "next/image";
 type LogoProps = {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl" | "2xl" | "hero";
+  priority?: boolean;
 };
 
 const sizeMap = {
@@ -17,6 +18,7 @@ const sizeMap = {
 export default function Logo({
   className = "",
   size = "md",
+  priority = false,
 }: LogoProps) {
   const { width, height } = sizeMap[size];
 
@@ -27,7 +29,7 @@ export default function Logo({
         alt="HUMAN REBUILD LAB"
         width={width}
         height={height}
-        priority
+        priority={priority}
         className="w-auto h-auto max-w-none"
       />
     </div>

@@ -22,7 +22,8 @@ export type BlogPost = {
     height: number;
   };
   category: Category;
-  tags: Tag[] | null; // MicroCMSでタグ未設定の場合はnullになる
+  /** タグ（未設定の場合はundefined） */
+  tags?: Tag[];
   publishedAt: string;
   updatedAt: string;
 };

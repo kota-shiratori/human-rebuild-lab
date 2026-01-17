@@ -392,3 +392,6 @@ export function getDummyRelatedPosts(
     )
     .slice(0, limit);
 }
+
+// Re-export for convenience
+export type { BlogPost, Category, Tag, BlogListResponse } from "@/_types/blog";

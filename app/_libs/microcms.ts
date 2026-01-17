@@ -1,3 +1,4 @@
+import "server-only";
 import { createClient } from "microcms-js-sdk";
 import type { BlogPost, BlogListResponse, Category, Tag } from "@/_types/blog";
 import {
@@ -7,18 +8,18 @@ import {
   dummyCategories,
   dummyTags,
 } from "./dummy-data";
+import { env } from "./env";
 
 // microCMSクライアント（環境変数が設定されている場合のみ有効）
-const client =
-  process.env.MICROCMS_SERVICE_DOMAIN && process.env.MICROCMS_API_KEY
-    ? createClient({
-        serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
-        apiKey: process.env.MICROCMS_API_KEY,
-      })
-    : null;
+const client = env.isMicroCMSConfigured
+  ? createClient({
+      serviceDomain: env.MICROCMS_SERVICE_DOMAIN,
+      apiKey: env.MICROCMS_API_KEY,
+    })
+  : null;
 
 // microCMSが設定されているかどうか
-const isMicroCMSConfigured = !!client;
+const isMicroCMSConfigured = env.isMicroCMSConfigured;
 
 // 記事一覧を取得
 export async function getBlogPosts(
@@ -56,7 +57,7 @@ export async function getBlogPosts(
     }
   }
 
-  const response = await client.get<BlogListResponse>({
+  const response = await client!.get<BlogListResponse>({
     endpoint: "blogs",
     queries: {
       limit,
@@ -77,7 +78,7 @@ export async function getBlogPostBySlug(
     return post ?? null;
   }
 
-  const response = await client.get<BlogListResponse>({
+  const response = await client!.get<BlogListResponse>({
     endpoint: "blogs",
     queries: {
       filters: `slug[equals]${slug}`,
@@ -97,7 +98,7 @@ export async function getRelatedPosts(
     return getDummyRelatedPosts(currentPost, limit);
   }
 
-  const tagIds = currentPost.tags?.map((tag) => tag.id) ?? [];
+  const tagIds = (currentPost.tags ?? []).map((tag) => tag.id);
   const filters: string[] = [`id[not_equals]${currentPost.id}`];
   
   if (tagIds.length > 0) {
@@ -108,7 +109,7 @@ export async function getRelatedPosts(
     filters.push(`category[equals]${currentPost.category.id}`);
   }
 
-  const response = await client.get<BlogListResponse>({
+  const response = await client!.get<BlogListResponse>({
     endpoint: "blogs",
     queries: {
       filters: filters.join("[and]"),
@@ -125,7 +126,7 @@ export async function getCategories(): Promise<Category[]> {
     return dummyCategories;
   }
 
-  const response = await client.get<{ contents: Category[] }>({
+  const response = await client!.get<{ contents: Category[] }>({
     endpoint: "categories",
   });
 
@@ -138,7 +139,7 @@ export async function getTags(): Promise<Tag[]> {
     return dummyTags;
   }
 
-  const response = await client.get<{ contents: Tag[] }>({
+  const response = await client!.get<{ contents: Tag[] }>({
     endpoint: "tags",
   });
 
@@ -152,7 +153,7 @@ export async function getAllBlogSlugs(): Promise<string[]> {
     return contents.map((post) => post.slug);
   }
 
-  const response = await client.get<BlogListResponse>({
+  const response = await client!.get<BlogListResponse>({
     endpoint: "blogs",
     queries: {
       fields: "slug",

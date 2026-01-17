@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import Button from "@/_components/Button";
 import Logo from "@/_components/Logo";
+import ContactForm from "./_components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -34,110 +34,7 @@ export default function ContactPage() {
       <section className="bg-white py-16 md:py-24">
         <div className="section-wrapper">
           <div className="max-w-2xl mx-auto">
-            <form className="space-y-8">
-              {/* Name */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-brand-black mb-2"
-                >
-                  お名前 <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent"
-                  placeholder="山田 太郎"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-brand-black mb-2"
-                >
-                  メールアドレス <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent"
-                  placeholder="example@email.com"
-                />
-              </div>
-
-              {/* Category */}
-              <div>
-                <label
-                  htmlFor="category"
-                  className="block text-sm font-medium text-brand-black mb-2"
-                >
-                  お問い合わせ種別 <span className="text-red-500">*</span>
-                </label>
-                <select
-                  id="category"
-                  name="category"
-                  required
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent bg-white"
-                >
-                  <option value="">選択してください</option>
-                  <option value="coaching">コーチング無料相談</option>
-                  <option value="template">テンプレートについて</option>
-                  <option value="media">取材・メディア掲載</option>
-                  <option value="collaboration">コラボレーション</option>
-                  <option value="other">その他</option>
-                </select>
-              </div>
-
-              {/* Message */}
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-brand-black mb-2"
-                >
-                  メッセージ <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-transparent resize-none"
-                  placeholder="お問い合わせ内容をご記入ください"
-                />
-              </div>
-
-              {/* Privacy */}
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="privacy"
-                  name="privacy"
-                  required
-                  className="w-5 h-5 mt-0.5 rounded border-gray-300 text-brand-blue focus:ring-brand-blue"
-                />
-                <label htmlFor="privacy" className="text-sm text-brand-gray-dark">
-                  <a
-                    href="/privacy"
-                    className="text-brand-blue hover:underline"
-                    target="_blank"
-                  >
-                    プライバシーポリシー
-                  </a>
-                  に同意します
-                </label>
-              </div>
-
-              {/* Submit */}
-              <Button type="submit" variant="primary" className="w-full">
-                送信する
-              </Button>
-            </form>
+            <ContactForm />
 
             {/* Other Contact */}
             <div className="mt-12 pt-12 border-t border-gray-200">

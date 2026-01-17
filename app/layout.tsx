@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans_JP, Zen_Kaku_Gothic_New, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/_components/Header";
 import Footer from "@/_components/Footer";
+import FloatingCta from "@/_components/FloatingCta";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// メインのボディフォント - 読みやすさ重視
+const notoSansJP = Noto_Sans_JP({
+  variable: "--font-noto-sans-jp",
   subsets: ["latin"],
+  weight: ["400", "500", "700", "900"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// 見出し用フォント - 力強さと個性
+const zenKakuGothicNew = Zen_Kaku_Gothic_New({
+  variable: "--font-zen-kaku",
   subsets: ["latin"],
+  weight: ["500", "700", "900"],
+  display: "swap",
+});
+
+// コード用フォント
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -44,10 +58,11 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${notoSansJP.variable} ${zenKakuGothicNew.variable} ${jetBrainsMono.variable} antialiased`}
       >
         <Header />
         <main className="pt-16 md:pt-20">{children}</main>
+        <FloatingCta />
         <Footer />
       </body>
     </html>

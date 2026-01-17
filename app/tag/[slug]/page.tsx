@@ -5,6 +5,9 @@ import BlogCard from "@/_components/BlogCard";
 import Pagination from "@/_components/Pagination";
 import CtaBanner from "@/_components/CtaBanner";
 
+// ISR: 1時間ごとに再検証
+export const revalidate = 3600;
+
 type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ page?: string }>;
@@ -12,7 +15,7 @@ type Props = {
 
 const POSTS_PER_PAGE = 9;
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const tags = await getTags();
   return tags.map((tag) => ({ slug: tag.slug }));
 }
