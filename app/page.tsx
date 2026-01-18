@@ -107,8 +107,8 @@ export default function Home() {
             <div className="lg:col-span-5">
               <div className="image-wrapper aspect-[3/4] shadow-2xl">
                 <Image
-                  src="/images/hero-reading.svg"
-                  alt="読書する人"
+                  src="/images/training.png"
+                  alt="トレーニングする人"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 40vw"
@@ -203,7 +203,7 @@ export default function Home() {
             <div className="lg:col-span-6 order-1 lg:order-2">
               <div className="image-wrapper aspect-[4/5] shadow-2xl">
                 <Image
-                  src="/images/hero-books.svg"
+                  src="/images/reading.png"
                   alt="本を持つ人"
                   fill
                   className="object-cover"
