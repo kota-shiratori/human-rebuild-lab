@@ -4,11 +4,11 @@ import Logo from "./Logo";
 const footerLinks = {
   content: [
     { href: "/blog", label: "Blog" },
-    { href: "/category/habit", label: "習慣化" },
-    { href: "/category/workout", label: "筋トレ" },
-    { href: "/category/learning", label: "学習" },
-    { href: "/category/time-management", label: "時間管理" },
-    { href: "/category/meditation", label: "瞑想" },
+    // { href: "/category/habit", label: "習慣化" },
+    // { href: "/category/workout", label: "筋トレ" },
+    // { href: "/category/learning", label: "学習" },
+    // { href: "/category/time-management", label: "時間管理" },
+    // { href: "/category/meditation", label: "瞑想" },
   ],
   company: [
     { href: "/about", label: "About" },
