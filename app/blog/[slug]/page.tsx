@@ -190,6 +190,13 @@ export default async function BlogPostPage({ params }: Props) {
                   dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
 
+                {/* Article Outro Message */}
+                <div className="mt-12 p-6 bg-brand-gray rounded-xl border-l-4 border-brand-blue">
+                  <p className="text-brand-gray-dark leading-relaxed">
+                    HUMAN REBUILD LABでは、脳や身体の性質を基に人間を変える研究を行っています。「脳を入れ替える習慣メディア」として、皆様の活躍を応援するツールとして在り続けます！
+                  </p>
+                </div>
+
                 {/* Article CTA */}
                 <div className="mt-12 pt-12 border-t border-gray-200">
                   <CtaBanner variant="template" />

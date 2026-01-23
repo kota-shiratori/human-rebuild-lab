@@ -119,6 +119,63 @@ h1, h2, h3, h4, h5, h6 {
   --tw-prose-code: var(--brand-blue);
 }
 
+/* 記事内見出し装飾 */
+.prose-brand h2 {
+  position: relative;
+  padding-left: 1rem;
+  padding-bottom: 0.75rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--brand-blue-light);
+}
+
+.prose-brand h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  bottom: 0.75rem;
+  width: 4px;
+  background: linear-gradient(180deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%);
+  border-radius: 2px;
+}
+
+.prose-brand h3 {
+  position: relative;
+  padding-left: 1rem;
+  padding-bottom: 0.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.prose-brand h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.2rem;
+  bottom: 0.5rem;
+  width: 3px;
+  background: var(--brand-blue);
+  border-radius: 2px;
+}
+
+.prose-brand h4 {
+  position: relative;
+  padding-left: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--brand-gray-dark);
+}
+
+.prose-brand h4::before {
+  content: '―';
+  position: absolute;
+  left: 0;
+  color: var(--brand-blue);
+  font-weight: 700;
+}
+
 /* ===== Form Styles ===== */
 input[type="text"],
 input[type="email"],
