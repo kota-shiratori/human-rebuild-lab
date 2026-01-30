@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP, Zen_Kaku_Gothic_New, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/_components/Header";
 import Footer from "@/_components/Footer";
 import FloatingCta from "@/_components/FloatingCta";
+
+const GA_TRACKING_ID = "G-CWP29FLHDF";
 
 // メインのボディフォント - 読みやすさ重視
 const notoSansJP = Noto_Sans_JP({
@@ -57,6 +60,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}');
+          `}
+        </Script>
+      </head>
       <body
         className={`${notoSansJP.variable} ${zenKakuGothicNew.variable} ${jetBrainsMono.variable} antialiased`}
       >
