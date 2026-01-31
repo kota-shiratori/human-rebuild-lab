@@ -9,6 +9,7 @@ import {
 } from "@/_libs/microcms";
 import BlogCard from "@/_components/BlogCard";
 import CtaBanner from "@/_components/CtaBanner";
+import AuthorCard from "@/_components/AuthorCard";
 
 // ISR: 1時間ごとに再検証
 export const revalidate = 3600;
@@ -196,6 +197,13 @@ export default async function BlogPostPage({ params }: Props) {
                     HUMAN REBUILD LABでは、脳や身体の性質を基に人間を変える研究を行っています。「脳を入れ替える習慣メディア」として、皆様の活躍を応援するツールとして在り続けます！
                   </p>
                 </div>
+
+                {/* Author Card */}
+                {post.author && (
+                  <div className="mt-12">
+                    <AuthorCard author={post.author} />
+                  </div>
+                )}
 
                 {/* Article CTA */}
                 <div className="mt-12 pt-12 border-t border-gray-200">

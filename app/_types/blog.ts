@@ -10,6 +10,21 @@ export type Tag = {
   slug: string;
 };
 
+export type Author = {
+  id: string;
+  name: string;
+  slug: string;
+  bio: string;
+  avatar: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  /** SNSリンク（オプション） */
+  twitter?: string;
+  instagram?: string;
+};
+
 export type BlogPost = {
   id: string;
   title: string;
@@ -24,6 +39,8 @@ export type BlogPost = {
   category: Category;
   /** タグ（未設定の場合はundefined） */
   tags?: Tag[];
+  /** 著者（未設定の場合はundefined） */
+  author?: Author;
   publishedAt: string;
   updatedAt: string;
 };

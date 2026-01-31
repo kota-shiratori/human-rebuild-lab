@@ -1,25 +1,50 @@
 import "server-only";
 import { createClient } from "microcms-js-sdk";
 import type { BlogPost, BlogListResponse, Category, Tag } from "@/_types/blog";
-import {
-  getDummyPosts,
-  getDummyPostBySlug,
-  getDummyRelatedPosts,
-  dummyCategories,
-  dummyTags,
-} from "./dummy-data";
+import { getAuthorByKey } from "./author-data";
 import { env } from "./env";
 
-// microCMSクライアント（環境変数が設定されている場合のみ有効）
-const client = env.isMicroCMSConfigured
-  ? createClient({
-      serviceDomain: env.MICROCMS_SERVICE_DOMAIN,
-      apiKey: env.MICROCMS_API_KEY,
-    })
-  : null;
+// microCMSからのレスポンス型（authorsはセレクトフィールドの文字列配列）
+type MicroCMSBlogPost = Omit<BlogPost, "author"> & {
+  authors?: string[];
+};
 
-// microCMSが設定されているかどうか
-const isMicroCMSConfigured = env.isMicroCMSConfigured;
+type MicroCMSBlogListResponse = {
+  contents: MicroCMSBlogPost[];
+  totalCount: number;
+  offset: number;
+  limit: number;
+};
+
+// microCMSのレスポンスをアプリ内の型に変換
+function transformBlogPost(post: MicroCMSBlogPost): BlogPost {
+  const authorKey = post.authors?.[0]; // セレクトフィールドの最初の値を取得
+  const author = getAuthorByKey(authorKey);
+  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { authors, ...rest } = post;
+  return {
+    ...rest,
+    author,
+  };
+}
+
+function transformBlogListResponse(response: MicroCMSBlogListResponse): BlogListResponse {
+  return {
+    ...response,
+    contents: response.contents.map(transformBlogPost),
+  };
+}
+
+// microCMSクライアント
+if (!env.isMicroCMSConfigured) {
+  throw new Error("microCMS環境変数が設定されていません。MICROCMS_SERVICE_DOMAINとMICROCMS_API_KEYを設定してください。");
+}
+
+const client = createClient({
+  serviceDomain: env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: env.MICROCMS_API_KEY,
+});
 
 // 記事一覧を取得
 export async function getBlogPosts(
@@ -31,11 +56,6 @@ export async function getBlogPosts(
   } = {}
 ): Promise<BlogListResponse> {
   const { limit = 10, offset = 0, category, tag } = options;
-
-  if (!isMicroCMSConfigured) {
-    // ダミーデータを返す
-    return getDummyPosts(options);
-  }
 
   const filters: string[] = [];
   
@@ -57,7 +77,7 @@ export async function getBlogPosts(
     }
   }
 
-  const response = await client!.get<BlogListResponse>({
+  const response = await client.get<MicroCMSBlogListResponse>({
     endpoint: "blogs",
     queries: {
       limit,
@@ -66,19 +86,14 @@ export async function getBlogPosts(
     },
   });
 
-  return response;
+  return transformBlogListResponse(response);
 }
 
 // 記事詳細を取得
 export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPost | null> {
-  if (!isMicroCMSConfigured) {
-    const post = getDummyPostBySlug(slug);
-    return post ?? null;
-  }
-
-  const response = await client!.get<BlogListResponse>({
+  const response = await client.get<MicroCMSBlogListResponse>({
     endpoint: "blogs",
     queries: {
       filters: `slug[equals]${slug}`,
@@ -86,7 +101,8 @@ export async function getBlogPostBySlug(
     },
   });
 
-  return response.contents[0] ?? null;
+  const post = response.contents[0];
+  return post ? transformBlogPost(post) : null;
 }
 
 // 関連記事を取得
@@ -94,10 +110,6 @@ export async function getRelatedPosts(
   currentPost: BlogPost,
   limit: number = 3
 ): Promise<BlogPost[]> {
-  if (!isMicroCMSConfigured) {
-    return getDummyRelatedPosts(currentPost, limit);
-  }
-
   const tagIds = (currentPost.tags ?? []).map((tag) => tag.id);
   const filters: string[] = [`id[not_equals]${currentPost.id}`];
   
@@ -109,7 +121,7 @@ export async function getRelatedPosts(
     filters.push(`category[equals]${currentPost.category.id}`);
   }
 
-  const response = await client!.get<BlogListResponse>({
+  const response = await client.get<MicroCMSBlogListResponse>({
     endpoint: "blogs",
     queries: {
       filters: filters.join("[and]"),
@@ -117,16 +129,12 @@ export async function getRelatedPosts(
     },
   });
 
-  return response.contents;
+  return response.contents.map(transformBlogPost);
 }
 
 // カテゴリ一覧を取得
 export async function getCategories(): Promise<Category[]> {
-  if (!isMicroCMSConfigured) {
-    return dummyCategories;
-  }
-
-  const response = await client!.get<{ contents: Category[] }>({
+  const response = await client.get<{ contents: Category[] }>({
     endpoint: "categories",
   });
 
@@ -135,11 +143,7 @@ export async function getCategories(): Promise<Category[]> {
 
 // タグ一覧を取得
 export async function getTags(): Promise<Tag[]> {
-  if (!isMicroCMSConfigured) {
-    return dummyTags;
-  }
-
-  const response = await client!.get<{ contents: Tag[] }>({
+  const response = await client.get<{ contents: Tag[] }>({
     endpoint: "tags",
   });
 
@@ -148,12 +152,7 @@ export async function getTags(): Promise<Tag[]> {
 
 // 全記事のスラッグを取得（静的生成用）
 export async function getAllBlogSlugs(): Promise<string[]> {
-  if (!isMicroCMSConfigured) {
-    const { contents } = getDummyPosts({ limit: 100 });
-    return contents.map((post) => post.slug);
-  }
-
-  const response = await client!.get<BlogListResponse>({
+  const response = await client.get<MicroCMSBlogListResponse>({
     endpoint: "blogs",
     queries: {
       fields: "slug",
