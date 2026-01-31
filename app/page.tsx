@@ -58,11 +58,11 @@ export default function Home() {
               {/* Stats */}
               <div className="flex flex-wrap gap-8 pt-6 border-t border-gray-200">
                 <div>
-                  <p className="text-2xl md:text-3xl font-black text-brand-blue">50+</p>
+                  <p className="text-2xl md:text-3xl font-black text-brand-blue">5+</p>
                   <p className="text-sm text-brand-gray-dark">記事公開中</p>
                 </div>
                 <div>
-                  <p className="text-2xl md:text-3xl font-black text-brand-blue">5</p>
+                  <p className="text-2xl md:text-3xl font-black text-brand-blue">5+</p>
                   <p className="text-sm text-brand-gray-dark">カテゴリー</p>
                 </div>
                 <div>
