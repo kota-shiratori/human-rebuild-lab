@@ -32,6 +32,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://human-rebuild-lab.com"),
   title: {
     default: "HUMAN REBUILD LAB | 習慣化で人生を再構築",
     template: "%s | HUMAN REBUILD LAB",
