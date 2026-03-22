@@ -34,6 +34,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
+    authors: [{ name: "HUMAN REBUILD LAB" }],
     openGraph: {
       title: post.title,
       description: post.description,
@@ -82,6 +86,35 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.title,
+            description: post.description,
+            image: post.thumbnail.url,
+            datePublished: post.publishedAt,
+            dateModified: post.updatedAt,
+            author: {
+              "@type": "Organization",
+              name: "HUMAN REBUILD LAB",
+              url: "https://human-rebuild-lab.com",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "HUMAN REBUILD LAB",
+              url: "https://human-rebuild-lab.com",
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://human-rebuild-lab.com/blog/${slug}`,
+            },
+          }),
+        }}
+      />
       {/* Hero */}
       <section className="bg-white pt-8 pb-12 md:pt-12 md:pb-16">
         <div className="section-wrapper">

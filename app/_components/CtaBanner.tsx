@@ -29,7 +29,7 @@ export default function CtaBanner({
             <p className="text-white/80 mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
               Notionで使える習慣トラッカー、週次振り返りシート、目標設定フレームワークをまとめた無料テンプレート
             </p>
-            <Button variant="white" href="/contact">
+            <Button variant="white" href="/template">
               無料でもらう
             </Button>
           </div>
